@@ -20,9 +20,37 @@ function renderTasks() {
     tasks.forEach((task) => {
         const listItem = document.createElement('li');
         listItem.className = 'task-item';
-        listItem.textContent = task.text;
+
+        const taskText = document.createElement('span');
+        taskText.className = 'task-text';
+        taskText.textContent = task.text;
+
+        const deleteButton = document.createElement('button');
+        deleteButton.type = 'button';
+        deleteButton.className = 'delete-button';
+        deleteButton.dataset.taskId = task.id;
+        deleteButton.setAttribute('aria-label', `Delete task: ${task.text}`);
+        deleteButton.title = 'Delete task';
+        deleteButton.textContent = '🗑';
+
+        listItem.appendChild(taskText);
+        listItem.appendChild(deleteButton);
         taskList.appendChild(listItem);
     });
+}
+
+function removeTask(taskId) {
+    if (!taskId) {
+        return;
+    }
+
+    const taskIndex = tasks.findIndex((task) => task.id === taskId);
+    if (taskIndex === -1) {
+        return;
+    }
+
+    tasks.splice(taskIndex, 1);
+    renderTasks();
 }
 
 function addTask() {
@@ -39,7 +67,7 @@ function addTask() {
     errorMessage.textContent = '';
 
     tasks.push({
-        id: Date.now() + Math.random(),
+        id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
         text: taskText,
     });
 
@@ -63,6 +91,15 @@ taskInput.addEventListener('keydown', (event) => {
         event.preventDefault();
         addTask();
     }
+});
+
+taskList.addEventListener('click', (event) => {
+    const deleteButton = event.target.closest('.delete-button');
+    if (!deleteButton) {
+        return;
+    }
+
+    removeTask(deleteButton.dataset.taskId);
 });
 
 renderTasks();

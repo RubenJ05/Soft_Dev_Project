@@ -8,6 +8,8 @@
     --border: #dbe3ef;
     --danger-bg: #fee2e2;
     --danger-text: #991b1b;
+    --danger: #dc2626;
+    --danger-dark: #b91c1c;
     --shadow: rgba(15, 23, 42, 0.08);
 }
 
@@ -94,11 +96,41 @@ h1 {
 }
 
 .task-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
     padding: 12px 14px;
     border: 1px solid var(--border);
     border-radius: 10px;
     background: #f8fafc;
+}
+
+.task-text {
+    flex: 1;
     word-break: break-word;
+    overflow-wrap: anywhere;
+}
+
+.delete-button {
+    width: 38px;
+    height: 38px;
+    border: none;
+    border-radius: 8px;
+    background: var(--danger);
+    color: #fff;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+    flex-shrink: 0;
+}
+
+.delete-button:hover {
+    background: var(--danger-dark);
+}
+
+.delete-button:focus {
+    outline: 2px solid rgba(220, 38, 38, 0.25);
 }
 
 .empty-state {
